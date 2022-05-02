@@ -9,23 +9,42 @@
 - Visual Studio 2022 (v143)
 - ISO c++14
 - Unicode
+- i7-10875h (8 core)
 
 ## Result
 
+### 4 Threads
+
 - Without Sleep(0)
-![1](WithoutSleep0_1.png)
-![2](WithoutSleep0_2.png)
-![3](WithoutSleep0_3.png)
+![1](WithoutSleep0_1_Fix.png)
 
 - Sleep(0) in Thread[1], Thread[2], Thread[3]
-![4](Sleep0_1.png)
-![5](Sleep0_2.png)
-![6](Sleep0_3.png)
+![2](Sleep0_1_Fix.png)
 
-- Average Spin Count per second (Without Sleep(0)) : 13442415
-- Average Spin Count per second (Sleep(0)) : 7774584
+- Average Spin Count per second (Without Sleep(0)) : 42572317
+- Average Spin Count per second (Sleep(0)) : 8932267
+- Spin Count per second (Thread not calling Sleep(0) when other threads calling Sleep(0)) : 104892470
+
+- Sleep(0) Thread Rate : **42572317 -> 8932267 (21%)**
+- Thread not calling Sleep(0) Spin Count Rate : **42572317 -> 104892470 (246%)**
+
+### 8 Threads
+
+- Without Sleep(0)
+![3](WithoutSleep0_8Thread_Fix.png)
+
+- Sleep(0) in Thread[1], Thread[2], Thread[3], Thread[4], Thread[5], Thread[6], Thread[7]
+![4](Sleep0_8Thread_Fix.png)
+
+- Average Spin Count per second (Without Sleep(0)) : 39511031
+- Average Spin Count per second (Sleep(0)) : 8575100
 - Average Spin Count per second (Thread not calling Sleep(0) when other threads calling Sleep(0)) : 41399713
 
-In short,
-- Calling Sleep(0) reduces waste of CPU time slice by roughly 42%.
-- Awaken thread's CPU time slice boosts significantly. (by 308% when 3 threads calling Sleep(0))
+- Sleep(0) Thread : **39511031 -> 8575100 (21.7%)**
+- Thread not calling Sleep(0) Spin Count Rate : **39511031 -> 100455604 (254%)**
+
+**In short,**
+
+**- Calling Sleep(0) significantly reduces waste of CPU time slice. (roughly reduced to 21%).**
+
+**- The thread not calling Sleep(0) when other threads calling Sleep(0) gets significant CPU time slice boost. (roughly boosted to 250%)**
