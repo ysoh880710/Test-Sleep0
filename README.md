@@ -1,7 +1,10 @@
 # Test-Sleep0
 
 - Test how Sleep(0) affects threads.
-- Verify "A value of zero causes the thread to relinquish the remainder of its time slice to any other thread that is ready to run." (Sleep function, microsoft docs) is true.
+- Verify following statement.
+
+    >"A value of zero causes the thread to relinquish the remainder of its time slice to any other thread that is ready to run."
+<https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleep>
 
 ## Environment
 
